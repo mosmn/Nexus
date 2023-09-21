@@ -6,7 +6,7 @@ A dynamic platform for sharing and accessing study materials and resources. User
 
 ![uml](./public/images/uml1.png)
 
-In the Nexus project, I'm creating a platform where users can upload and access past exams, midterms, quizzes, exercises, and other study materials for specific subjects. To achieve this, I've redefined the data model to efficiently store and manage information related to these study materials. Let's explore the updated Nexus models.
+In the Nexus project, I'm creating a platform where users can upload and access past exams, midterms, quizzes, exercises, and other study materials for specific subjects. To achieve this, I've defined the data model to efficiently store and manage information related to these study materials.
 
 ## Models Overview
 
@@ -32,7 +32,7 @@ To illustrate further:
 
 - For "Material Type," I create a model that allows me to insert, update, or remove material type values dynamically through my application. This flexibility is valuable because material types in the context of study materials can be subject to change or expansion, and I want my application to accommodate these changes without requiring structural modifications to the database.
 
-In summary, the distinction lies in the stability of the data:
+The distinction lies in the stability of the data:
 
 - For static, rarely changing data like "Material Status," hard-coding the acceptable values is a straightforward and efficient approach.
 
