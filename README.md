@@ -56,6 +56,6 @@ In the association diagram, you'll notice numbers (maximum and minimum) next to 
 
 ## Note on Field Placement
 
-As before, I've chosen to define the relationships within the appropriate schemas. The Subject - StudyMaterial relationship is defined in the Subject schema, and the User - StudyMaterial relationship is defined in the User schema. This design choice ensures that each schema focuses on its primary data and relationships.
+I've chosen to define the relationships within the appropriate schemas. The Subject - StudyMaterial relationship is defined in the Subject schema, and the User - StudyMaterial relationship is defined in the User schema. This design choice ensures that each schema focuses on its primary data and relationships.
 
-This updated schema design provides me with the flexibility and structure needed to efficiently manage and query data related to study materials, subjects, and users within the Nexus project. Users can create, read, update, and delete study materials for specific subjects, making it a valuable platform for academic resources.
+This schema design provides me with the flexibility and structure needed to efficiently manage and query data related to study materials, subjects, and users within the Nexus project. Users can create, read, update, and delete study materials for specific subjects, making it a valuable platform for academic resources.
