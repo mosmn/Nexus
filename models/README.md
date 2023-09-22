@@ -50,6 +50,23 @@ In your `UserSchema`, the virtual fields `name` and `url` are being defined.
    - It's computed based on the `_id` of the user.
    - When you access `user.url`, it returns a URL string like "/users/123" (where 123 is the user's `_id`).
 
+```js
+const UserSchema = new Schema({
+  username: { type: String, required: true, maxlength: 100 },
+  password: { type: String, required: true, maxlength: 100 },
+  email: { type: String, required: true, maxlength: 100 },
+  first_name: { type: String, required: true, maxlength: 100 },
+  last_name: { type: String, required: true, maxlength: 100 },
+  is_admin: { type: Boolean, required: true, default: false },
+  is_active: { type: Boolean, required: true, default: true },
+  date_joined: { type: Date, required: true, default: Date.now },
+  points: { type: Number, required: true, default: 0 },
+
+  // virtuals:
+  // name:
+  // url:
+});
+```
 The reason to use virtuals in this case is to keep your model clean and concise. Instead of adding extra fields for `name` and `url` to the actual document in the database, you can compute these values on-demand when you need them. It also helps in keeping your data consistent because if the `first_name` or `last_name` fields change, the `name` virtual will automatically reflect that change when accessed.
 
 Same goes for the virtuals in other models.
