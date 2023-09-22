@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const MaterialSchema = new Schema({
   title: { type: String, required: true, maxlength: 100 },
   description: { type: String, required: true, maxlength: 100 },
-  file: { type: String, required: true},
+  file: { type: String, required: true },
   type: { type: Schema.Types.ObjectId, ref: "Type" },
   uploaded_by: { type: Schema.Types.ObjectId, ref: "User" },
   date_uploaded: { type: Date, required: true, default: Date.now },
