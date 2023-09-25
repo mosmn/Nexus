@@ -1,6 +1,10 @@
 const Subject = require('../models/subject');
 const asyncHandler = require('express-async-handler');
 
+exports.getHome = asyncHandler(async (req, res, next) => {
+    res.send('Not implemented: getHome');
+});
+
 // Display list of all subjects.
 exports.getSubjects = asyncHandler(async (req, res, next) => {
     res.send('Not implemented: getSubjects');
