@@ -16,3 +16,25 @@ Views are responsible for crafting the user interface (UI) that users interact w
 
 ### Controllers
 Controllers are the decision-makers of the application. They determine which view to render and orchestrate the flow of information that populates it. Within the Nexus project, controllers play a pivotal role in shaping the user's interaction with the platform, ensuring a cohesive and responsive user journey.
+
+## Data Flow
+
+![Alt text](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes/mvc_express.png)
+
+The diagram above illustrates the primary flow of data within the Nexus project and highlights essential components to be implemented when handling HTTP requests and responses. In addition to the views and routes, the diagram introduces "controllers," which are functions responsible for separating request routing logic from request processing.
+
+### Key Components
+
+1. **Routes**: Routes are responsible for directing incoming HTTP requests (including any encoded information in request URLs) to the appropriate controller functions.
+
+2. **Controller Functions**: Controller functions play a crucial role in fetching requested data from the models, generating HTML pages to display the data, and returning these pages to users for viewing in their web browsers.
+
+3. **Views (Templates)**: Views, often referred to as templates, are utilized by controllers to render data into visually appealing web pages that users interact with.
+
+4. **Models**: Models are responsible for managing the data that is displayed in the views. They are also responsible for the validation of data and the business logic of the application.
+
+The primary data flow within the Nexus project adheres to the following sequence:
+
+- **Routes**: These components receive HTTP requests sent to the Express server and forward them to the relevant controller functions.
+
+- **Controllers**: Controller functions manage the interaction with the models to read and write data. They utilize views or templates to render data into HTML, which is then sent back as an HTTP response to the client.
