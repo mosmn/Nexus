@@ -4,9 +4,10 @@ const asyncHandler = require("express-async-handler");
 
 exports.getHome = asyncHandler(async (req, res, next) => {
   try {
-    const subjects = await Subject.find().limit(5).exec();
-
-    const materials = await Material.find().limit(5).exec();
+    const [subjects, materials] = await Promise.all([
+        Subject.find().limit(5).exec(),
+        Material.find().populate("type").limit(5).exec(),
+        ]);
 
     res.render("index", { title: "Home", subjects, materials });
   } catch (err) {

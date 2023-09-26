@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
+
 
 const Schema = mongoose.Schema;
 
@@ -20,6 +22,10 @@ const MaterialSchema = new Schema({
 
 MaterialSchema.virtual("url").get(function () {
   return "/home/material/" + this._id;
+});
+
+MaterialSchema.virtual("date_uploaded_formatted").get(function () {
+  return DateTime.fromJSDate(this.date_uploaded).toLocaleString(DateTime.DATE_MED);
 });
 
 module.exports = mongoose.model("Material", MaterialSchema);
