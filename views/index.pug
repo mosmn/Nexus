@@ -1,5 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    h1= title
+    p This is the official website for Nexus, your one-stop platform for accessing educational materials and resources. Explore a wide range of subjects and materials to enhance your learning experience.
+
+    if subjects.length > 0
+      h2 Subjects
+      .row
+        each subject in subjects
+          .col-md-4
+            .card.mb-4
+              .card-body
+                h5.card-title= subject.name
+                p.card-text= subject.description
+                a.btn.btn-primary(href=subject.url) View Subject
+
+    if materials.length > 0
+      h2 Materials
+      .row
+        each material in materials
+          .col-md-4
+            .card.mb-4
+              .card-body
+                h5.card-title= material.title
+                p.card-text= material.description
+                a.btn.btn-primary(href=material.url) View Material

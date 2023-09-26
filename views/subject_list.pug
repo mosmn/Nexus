@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .container
+    h1= title
+
+    if subjects.length > 0
+      each subject in subjects
+        .card.mb-3
+          .card-body
+            h5.card-title
+              a(href=`/subjects/${subject._id}`)= subject.name
+            p.card-text
+              - if (subject.materialCounts && Object.keys(subject.materialCounts).length > 0)
+                each type in Object.keys(subject.materialCounts)
+                  span.badge.badge-primary.mr-2= `${type}: ${subject.materialCounts[type]}`
+              - else
+                | No materials available for this subject.
+          a.btn.btn-primary(href=`/subjects/${subject._id}`) View Details
+    else
+      p No subjects found.
