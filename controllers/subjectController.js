@@ -18,7 +18,14 @@ exports.getSubjects = asyncHandler(async (req, res, next) => {
   try {
     const subjects = await Subject.find().exec();
 
-    res.render("subject_list", { title: "All Subject", subjects });
+    const subjectCount = await Promise.all(
+      subjects.map(async (subject) => {
+        const count = await Material.countDocuments({ belongs_to: subject._id });
+        return count;
+      })
+    );
+
+    res.render("subject_list", { title: "All Subject", subjects, subjectCount });
   } catch (err) {
     next(err);
   }
