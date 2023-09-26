@@ -9,7 +9,7 @@ const SubjectSchema = new Schema({
 });
 
 SubjectSchema.virtual("url").get(function () {
-  return "/subjects/" + this._id;
+  return "/home/subject/" + this._id;
 });
 
 module.exports = mongoose.model("Subject", SubjectSchema);

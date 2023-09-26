@@ -19,7 +19,7 @@ const MaterialSchema = new Schema({
 });
 
 MaterialSchema.virtual("url").get(function () {
-  return "/materials/" + this._id;
+  return "/home/material/" + this._id;
 });
 
 module.exports = mongoose.model("Material", MaterialSchema);

@@ -33,7 +33,15 @@ exports.getSubjects = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific subject.
 exports.getSubjectDetail = asyncHandler(async (req, res, next) => {
-  res.send(`Not implemented: getSubjectDetail ${req.params.id}`);
+    try {
+        const subject = await Subject.findById(req.params.id).exec();
+    
+        const materials = await Material.find({ belongs_to: req.params.id }).populate("type").exec();
+    
+        res.render("subject_detail", { title: subject.name, code: subject.code, materials });
+    } catch (err) {
+        next(err);
+    }
 });
 
 // Display Subject create form on GET.

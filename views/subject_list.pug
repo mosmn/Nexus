@@ -9,12 +9,12 @@ block content
         .card.mb-3
           .card-body
             h5.card-title
-              a(href=`/subjects/${subject._id}`)= subject.name
+              a(href=subject.url)= subject.name
             p.card-text
               if subjectCount[index] > 0
                 | There are #{subjectCount[index]} material(s) available for this subject.
               else
                 | No materials available for this subject.
-          a.btn.btn-primary(href=`/subjects/${subject._id}`) View Details
+          a.btn.btn-primary(href=subject.url) View Details
     else
       p No subjects found.

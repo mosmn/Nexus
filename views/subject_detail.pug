@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .container
+    h1= title
+    p
+      strong Code:
+      | #{code}
+
+    if materials.length > 0
+      h2 Materials
+      each material in materials
+        .card.mb-3
+          .card-body
+            h5.card-title
+              a(href=material.url)= material.title
+            p.card-text= material.description
+            p.card-text
+              | Type: #{material.type.name}
+              br
+              | Uploaded by: #{material.uploaded_by.name}
+              br
+              | Status: #{material.status}
+          a.btn.btn-primary(href=material.url) View Details
+    else
+      p No materials available for this subject.
