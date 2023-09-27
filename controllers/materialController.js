@@ -102,11 +102,25 @@ exports.getDownload = asyncHandler(async (req, res, next) => {
 });
 
 exports.getDelete = asyncHandler(async (req, res, next) => {
-  res.send("Not implemented: getDelete");
+  const material = await Material.findById(req.params.id).exec();
+
+  if (material) {
+    res.render("material_delete", { title: "Delete Material", material });
+  } else {
+    res.redirect("/home/materials");
+  }
 });
 
 exports.postDelete = asyncHandler(async (req, res, next) => {
-  res.send("Not implemented: postDelete");
+  const materialId = req.params.id;
+
+  try {
+    await Material.findByIdAndRemove(materialId);
+
+    res.redirect("/home/materials");
+  } catch (err) {
+    next(err);
+  }
 });
 
 
