@@ -9,7 +9,7 @@ const MaterialSchema = new Schema({
   description: { type: String, required: true, maxlength: 100 },
   file: { type: String, required: true },
   type: { type: Schema.Types.ObjectId, ref: "Type" },
-  uploaded_by: { type: Schema.Types.ObjectId, ref: "User" },
+  uploaded_by: { type: Schema.Types.ObjectId, ref: "User", default: "650d495e66cbd41a23c5a2c4" },
   date_uploaded: { type: Date, required: true, default: Date.now },
   belongs_to: { type: Schema.Types.ObjectId, ref: "Subject" },
   status: {

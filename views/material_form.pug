@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  .container
+    h1= title
+
+    if errors && errors.length > 0
+      .alert.alert-danger
+        ul
+          each error in errors
+            li= error.msg
+
+    form(method='POST' action='')
+      .form-group
+        label(for='title') Title
+        input#title.form-control(type='text', name='title', value=material ? material.title : '', required)
+
+      .form-group
+        label(for='description') Description
+        textarea#description.form-control(name='description', rows='3', required)= material ? material.description : ''
+
+      .form-group
+        label(for='type') Type
+        select#type.form-control(name='type', required)
+          each type in types
+            option(value=type._id, selected=(material && material.type && material.type.toString() === type._id.toString()))= type.name
+
+      .form-group
+        label(for='subject') Subject
+        select#subject.form-control(name='subject', required)
+          each subject in subjects
+            option(value=subject._id, selected=(material && material.subject && material.subject.toString() === subject._id.toString()))= subject.name
+
+      .form-group
+        label(for='file') File
+        input#file.form-control(type='file', name='file', required)
+
+      button.btn.btn-primary(type='submit') Upload

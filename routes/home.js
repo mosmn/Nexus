@@ -96,14 +96,11 @@ router.post("/type/:id/update", type_controller.postUpdate);
 // GET request for list of all Materials.
 router.get("/materials", material_controller.getMaterials);
 
-// GET request for one Material.
-router.get("/material/:id", material_controller.getMaterialDetail);
-
 // GET request for creating a Material.
-router.get("/material/create", material_controller.getCreate);
+router.get("/material/upload", material_controller.getCreate);
 
 // POST request for creating Material.
-router.post("/material/create", material_controller.postCreate);
+router.post("/material/upload", material_controller.postCreate);
 
 // GET request to delete Material.
 router.get("/material/:id/delete", material_controller.getDelete);
@@ -116,5 +113,8 @@ router.get("/material/:id/update", material_controller.getUpdate);
 
 // POST request to update Material.
 router.post("/material/:id/update", material_controller.postUpdate);
+
+// GET request for one Material.
+router.get("/material/:id", material_controller.getMaterialDetail);
 
 module.exports = router;

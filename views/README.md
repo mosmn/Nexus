@@ -1,20 +1,14 @@
 # Views
 
-In the Nexus application, views play a crucial role in defining the structure and layout of web pages. We utilize Pug (formerly known as Jade) as our chosen template engine for rendering these views.
+Views in the Nexus application are templates that define the structure or layout of the output pages, with placeholders used to represent where data will be inserted when the template is rendered. We use Pug (formerly known as Jade) for our templates.
 
-Pug offers a more concise and arguably more readable representation of HTML. In Pug, HTML elements are denoted by the first word on each line, and nesting is indicated by proper indentation. This approach allows us to define page structures that directly translate to HTML. However, it's essential to note that Pug is sensitive to indentation and whitespace, so attention to detail is crucial to avoid potential errors. Once your templates are correctly structured, they become highly maintainable.
+## Template Structure
 
-## Configuring the Template Engine
+Pug uses a representation of HTML where the first word in any line usually represents an HTML element, and indentation on subsequent lines is used to represent nesting. The result is a page definition that translates directly to HTML, but is more concise and arguably easier to read. However, it's important to note that Pug is sensitive to indentation and whitespace, so be cautious when formatting your templates.
 
-During the initial setup of this project, we configured the template engine using the following command:
+## Configuration
 
-```bash
-express . --view=pug
-```
-
-This command, executed in the app's root directory, set Pug as our view engine and instructed Express to look for templates in the /views subdirectory.
-
-In the `app.js` file, you'll find the following settings, which define our view engine and the directory where templates are stored:
+To configure the template engine in the Nexus project, we've used the following setup:
 
 ```javascript
 // View engine setup
@@ -22,14 +16,47 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 ```
 
-These configurations enable Express to seamlessly render views using the Pug template engine.
+This configuration tells Express to use Pug as the view engine and to search for templates in the `/views` subdirectory.
 
-# Forms
+## Forms
 
-Handling forms in the Nexus application follows similar patterns as displaying information about our models. When a form is submitted, the server routes the request to a controller function, which performs necessary database operations, including reading from or writing to the models. The controller function then generates an HTML page in response.
+Form handling in the Nexus application follows a standard pattern where the route sends a request to a controller function. The controller function performs any necessary database actions, including reading data from the models, then generates and returns an HTML page. Form data provided by the user is processed, and the server may redisplay the form with error information if any issues arise.
 
-What adds complexity to form handling is the server's ability to process user-provided data and handle errors gracefully. Here's a high-level overview of the form processing flow:
+Here's an overview of the form processing flowchart:
 
 ![Form Processing Flowchart](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/forms/web_server_form_handling.png)
 
-Starting with a user's request for a page containing a form (depicted in green), the server orchestrates the entire process, from rendering the initial form to handling data submission, validation, and redisplaying the form with error information when necessary. This ensures a smooth and user-friendly experience when interacting with forms in the Nexus application.
+## Validation and Sanitization
+
+Before storing data from a form, it must be validated and sanitized to ensure data integrity and security:
+
+- **Validation** checks that entered values are appropriate for each field, such as being within the correct range or format, and verifies that all required fields have values.
+- **Sanitization** removes or replaces characters in the data that could be used for malicious purposes.
+
+In the Nexus project, we use the `express-validator` module to perform both validation and sanitization of form data.
+
+### Installation
+
+To use `express-validator`, install the module by running the following command:
+
+```bash
+npm install express-validator
+```
+
+### Usage
+
+We import the necessary functions from `express-validator` in our controllers:
+
+```javascript
+const { body, validationResult } = require("express-validator");
+```
+
+Here's a brief explanation of key functions:
+
+- `body([fields, message])`: Specifies fields in the request body (e.g., POST parameters) to validate and/or sanitize. You can chain validation and sanitization criteria, and define error messages if validation fails.
+
+- `validationResult(req)`: Runs the validation, and the errors are available in the form of a validation result object. You can check if there were errors using `isEmpty()` and retrieve error messages with `array()`.
+
+These functions help ensure that data from forms is validated and sanitized properly, improving data quality and security.
+
+For more detailed information about [`express-validator`](https://express-validator.github.io/docs/#basic-guide), refer to the module's documentation on GitHub, which covers additional capabilities such as schema validation and custom validators.
