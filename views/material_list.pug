@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .container
+    h1= title
+
+    if materials.length > 0
+      .row
+        each material in materials
+          .col-md-4.mb-4
+            .card
+              img.card-img-top(src="image-url-here", alt="Material Image")
+              .card-body
+                h5.card-title
+                  a(href=material.url)= material.title
+                p.card-text= material.description
+                p.card-text
+                  | Type: #{material.type.name}
+                  br
+                  | Uploaded By: #{material.uploaded_by.username}
+                p.card-text
+                  | Date Uploaded: #{material.date_uploaded_formatted}
+                  br
+                  | Status: #{material.status}
+              a.btn.btn-primary(href=material.url) View Details
+    else
+      p No materials found.

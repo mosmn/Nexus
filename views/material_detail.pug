@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .container
+    h1= title
+
+    if material
+      .card
+        img.card-img-top(src="image-url-here", alt="Material Image")
+        .card-body
+          h5.card-title= material.title
+          p.card-text= material.description
+          p.card-text
+            | Type: #{material.type.name}
+            br
+            | Uploaded By: #{material.uploaded_by.username}
+          p.card-text
+            | Date Uploaded: #{material.date_uploaded.toLocaleDateString()}
+            br
+            | Status: #{material.status}
+
+      a.btn.btn-primary(href=`${material.url}/download`) Download
+    else
+      p Material not found.
+
+  a.btn.btn-secondary(href="/home/materials") Back to Materials

@@ -8,6 +8,7 @@ const MaterialSchema = new Schema({
   title: { type: String, required: true, maxlength: 100 },
   description: { type: String, required: true, maxlength: 100 },
   file: { type: String, required: true },
+  path: { type: String, required: true },
   type: { type: Schema.Types.ObjectId, ref: "Type" },
   uploaded_by: { type: Schema.Types.ObjectId, ref: "User", default: "650d495e66cbd41a23c5a2c4" },
   date_uploaded: { type: Date, required: true, default: Date.now },
@@ -19,6 +20,7 @@ const MaterialSchema = new Schema({
     default: "Available",
   },
 });
+
 
 MaterialSchema.virtual("url").get(function () {
   return "/home/material/" + this._id;

@@ -102,6 +102,9 @@ router.get("/material/upload", material_controller.getCreate);
 // POST request for creating Material.
 router.post("/material/upload", material_controller.postCreate);
 
+// GET request for downloading a Material.
+router.get("/material/:id/download", material_controller.getDownload);
+
 // GET request to delete Material.
 router.get("/material/:id/delete", material_controller.getDelete);
 
