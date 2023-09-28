@@ -39,7 +39,6 @@ router.get("/materials", material_controller.getMaterials);
 router.get("/material/upload", material_controller.getCreate);
 router.post("/material/upload", material_controller.postCreate);
 router.get("/material/:id/download", material_controller.getDownload);
-router.get("/material/:id/delete", material_controller.getDelete);
 router.post("/material/:id/delete", material_controller.postDelete);
 router.get("/material/:id/update", material_controller.getUpdate);
 router.post("/material/:id/update", material_controller.postUpdate);

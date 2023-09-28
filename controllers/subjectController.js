@@ -5,9 +5,9 @@ const asyncHandler = require("express-async-handler");
 exports.getHome = asyncHandler(async (req, res, next) => {
   try {
     const [subjects, materials] = await Promise.all([
-        Subject.find().limit(5).exec(),
-        Material.find().populate("type").limit(5).exec(),
-        ]);
+      Subject.find().limit(5).exec(),
+      Material.find().populate("type").limit(5).exec(),
+    ]);
 
     res.render("index", { title: "Home", subjects, materials });
   } catch (err) {
@@ -21,27 +21,40 @@ exports.getSubjects = asyncHandler(async (req, res, next) => {
 
     const subjectCount = await Promise.all(
       subjects.map(async (subject) => {
-        const count = await Material.countDocuments({ belongs_to: subject._id });
+        const count = await Material.countDocuments({
+          belongs_to: subject._id,
+        });
         return count;
-      })
+      }),
     );
 
-    res.render("subject_list", { title: "All Subject", subjects, subjectCount });
+    res.render("subject_list", {
+      title: "All Subject",
+      subjects,
+      subjectCount,
+    });
   } catch (err) {
     next(err);
   }
 });
 
 exports.getSubjectDetail = asyncHandler(async (req, res, next) => {
-    try {
-        const subject = await Subject.findById(req.params.id).exec();
-    
-        const materials = await Material.find({ belongs_to: req.params.id }).populate("type").populate("uploaded_by").exec();
-    
-        res.render("subject_detail", { title: subject.name, code: subject.code, materials });
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const subject = await Subject.findById(req.params.id).exec();
+
+    const materials = await Material.find({ belongs_to: req.params.id })
+      .populate("type")
+      .populate("uploaded_by")
+      .exec();
+
+    res.render("subject_detail", {
+      title: subject.name,
+      code: subject.code,
+      materials,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Display Subject create form on GET.

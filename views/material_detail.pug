@@ -21,9 +21,10 @@ block content
 
       a.btn.btn-primary(href=`${material.url}/download`) Download
 
-      // Create a form for confirming the deletion
       form(action=`${material.url}/delete`, method="POST")
         button.btn.btn-secondary(type="submit") Delete
+
+      a.btn.btn-secondary(href=`${material.url}/update`) Update
 
     else
       p Material not found.

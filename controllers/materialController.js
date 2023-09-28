@@ -1,5 +1,3 @@
-// materialController.js
-
 const Material = require("../models/material");
 const Type = require("../models/type");
 const Subject = require("../models/subject");
@@ -7,9 +5,10 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const path = require("path");
 const multer = require("multer");
+const debug = require("debug")("materialController")
 
 const storage = multer.diskStorage({
-  destination: './public/uploads/',
+  destination: "./public/uploads/",
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
@@ -51,16 +50,19 @@ exports.getCreate = asyncHandler(async (req, res, next) => {
 exports.postCreate = [
   upload.single("file"),
 
-  body("title", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("title", "Title must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description", "Description must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("type", "Type must not be empty.").trim().isLength({ min: 1 }).escape(),
-  body("subject", "Subject must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("subject", "Subject must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-
-    if (!req.file) {
-      errors.array().push({ msg: "File must be uploaded." });
-    }
 
     if (errors.isEmpty()) {
       const { filename, path } = req.file;
@@ -88,6 +90,12 @@ exports.postCreate = [
 
       res.render("material_form", {
         title: "Upload Material",
+        material: {
+          title: req.body.title,
+          description: req.body.description,
+          type: req.body.type,
+          belongs_to: req.body.subject,
+        },
         types: allTypes,
         subjects: allSubjects,
         errors: errors.array(),
@@ -99,16 +107,6 @@ exports.postCreate = [
 exports.getDownload = asyncHandler(async (req, res, next) => {
   const material = await Material.findById(req.params.id).exec();
   res.download(material.path, material.file);
-});
-
-exports.getDelete = asyncHandler(async (req, res, next) => {
-  const material = await Material.findById(req.params.id).exec();
-
-  if (material) {
-    res.render("material_delete", { title: "Delete Material", material });
-  } else {
-    res.redirect("/home/materials");
-  }
 });
 
 exports.postDelete = asyncHandler(async (req, res, next) => {
@@ -123,12 +121,95 @@ exports.postDelete = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 exports.getUpdate = asyncHandler(async (req, res, next) => {
-  res.send("Not implemented: getUpdate");
+  const [material, allTypes, allSubjects] = await Promise.all([
+    Material.findById(req.params.id).exec(),
+    Type.find().exec(),
+    Subject.find().exec(),
+  ]);
+
+  const isUpdate = true;
+
+  res.render("material_form", {
+    title: "Update Material",
+    material,
+    types: allTypes,
+    subjects: allSubjects,
+    isUpdate,
+  });
 });
 
+exports.postUpdate = [
+  upload.single("file"),
 
-exports.postUpdate = asyncHandler(async (req, res, next) => {
-  res.send("Not implemented: postUpdate");
-});
+  body("title", "Title must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("type", "Type must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("subject", "Subject must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const materialId = req.params.id;
+
+    if (!req.file) {
+      debug(`No file uploaded`);
+      errors.errors.push({
+        value: "",
+        msg: "No file uploaded.",
+        param: "file",
+        location: "body",
+      });
+    }
+
+    if (errors.isEmpty()) {
+      const { filename, path } = req.file;
+
+      const materialUpdate = new Material({
+        title: req.body.title,
+        description: req.body.description,
+        type: req.body.type,
+        belongs_to: req.body.subject,
+        file: filename,
+        path: path,
+        _id: materialId,
+      });
+
+      try {
+        await Material.findByIdAndUpdate(materialId, materialUpdate);
+
+        res.redirect(materialUpdate.url);
+      } catch (err) {
+        next(err);
+      }
+    } else {
+      const [allTypes, allSubjects] = await Promise.all([
+        Type.find().exec(),
+        Subject.find().exec(),
+      ]);
+
+      const existingMaterial = await Material.findById(materialId).exec();
+
+      res.render("material_form", {
+        title: "Update Material",
+        types: allTypes,
+        subjects: allSubjects,
+        material: {
+          _id: materialId,
+          title: req.body.title,
+          description: req.body.description,
+          type: req.body.type,
+          belongs_to: req.body.subject,
+          file: existingMaterial.file,
+          path: existingMaterial.path,
+        },
+        errors: errors.array(),
+        isUpdate: true,
+      });
+    }
+  }),
+];

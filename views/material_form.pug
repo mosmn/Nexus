@@ -10,14 +10,14 @@ block content
           each error in errors
             li= error.msg
 
-    form(method='POST' action='' enctype='multipart/form-data')
+    form(method='POST' enctype='multipart/form-data')
       .form-group
         label(for='title') Title
-        input#title.form-control(type='text', name='title', value=material ? material.title : '', required)
+        input#title.form-control(type='text', name='title', value=material ? material.title : '')
 
       .form-group
         label(for='description') Description
-        textarea#description.form-control(name='description', rows='3', required)= material ? material.description : ''
+        textarea#description.form-control(name='description', rows='3')= material ? material.description : ''
 
       .form-group
         label(for='type') Type
@@ -33,6 +33,11 @@ block content
 
       .form-group
         label(for="file") Upload File:
-        input#file.form-control(type="file" name="file" accept=".pdf")
+        input#file.form-control(type="file" name="file" accept=".pdf" required)
 
-      button.btn.btn-primary(type='submit') Upload
+      if isUpdate
+        input(type="hidden", name="materialId", value=material._id)
+        button.btn.btn-primary(type='submit') Update
+      else
+        button.btn.btn-primary(type='submit') Upload
+
