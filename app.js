@@ -12,12 +12,11 @@ const indexRouter = require("./routes/index");
 const homeRouter = require("./routes/home");
 
 const app = express();
-app.set('trust proxy', true);
 
 const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 1 * 60 * 1000,
+  max: 20,
 });
 
 app.use(limiter);
@@ -33,11 +32,7 @@ app.use(
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-const dev_db_url = 
-
-"mongodb+srv://ithinkisee8:gIXNEDWjppIE5utX@cluster0.wyskkpm.mongodb.net/Nexus?retryWrites=true&w=majority"
-
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const mongoDB = process.env.MONGODB_URI;
 
 (async () => {
   try {
