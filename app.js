@@ -12,6 +12,7 @@ const indexRouter = require("./routes/index");
 const homeRouter = require("./routes/home");
 
 const app = express();
+app.set('trust proxy', true);
 
 const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
