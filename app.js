@@ -31,7 +31,11 @@ app.use(
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-const mongoDB = process.env.MONGODB_URI;
+const my_uri = 
+
+"mongodb+srv://ithinkisee8:gIXNEDWjppIE5utX@cluster0.wyskkpm.mongodb.net/Nexus?retryWrites=true&w=majority"
+
+const mongoDB = process.env.MONGODB_URI || my_uri;
 
 (async () => {
   try {
