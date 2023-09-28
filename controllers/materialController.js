@@ -5,7 +5,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const path = require("path");
 const multer = require("multer");
-// const debug = require("debug")("materialController")
+const debug = require("debug")("materialController")
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/",
@@ -157,7 +157,7 @@ exports.postUpdate = [
     const materialId = req.params.id;
 
     if (!req.file) {
-      // debug(`No file uploaded`);
+      debug(`No file uploaded`);
       errors.errors.push({
         value: "",
         msg: "No file uploaded.",

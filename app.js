@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
+const debug = require("debug")("app");
 require("dotenv").config();
 
 const indexRouter = require("./routes/index");
@@ -31,18 +32,18 @@ app.use(
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-const my_uri = 
+const dev_db_url = 
 
 "mongodb+srv://ithinkisee8:gIXNEDWjppIE5utX@cluster0.wyskkpm.mongodb.net/Nexus?retryWrites=true&w=majority"
 
-const mongoDB = process.env.MONGODB_URI || my_uri;
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 (async () => {
   try {
     await mongoose.connect(mongoDB);
-    console.log("Connected to MongoDB");
+    debug("Connected to MongoDB.");
   } catch (err) {
-    console.error("Error connecting to MongoDB:", err);
+    debug(`Error connecting to MongoDB: ${err}`);
   }
 })();
 
